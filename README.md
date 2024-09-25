@@ -1,6 +1,6 @@
 # Healthify
 
-This template should help get you started developing with Vue 3 in Vite.
+使用Vue3开发的Healthify项目，基于Vite构建。
 
 ## Recommended IDE Setup
 

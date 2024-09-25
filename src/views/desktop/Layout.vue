@@ -34,13 +34,15 @@ const userInfo = ref(null);
         <el-menu
           :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
           :ellipsis="false" @select="handleSelect" router>
-          <!-- <el-menu-item index="0">
-            <img
-              style="width: 100px"
-              src="/images/element-plus-logo.svg"
-              alt="Element logo"
-            />
-          </el-menu-item> -->
+          <el-menu-item index="/home" >
+          
+          <img  
+            src="@/assets/image/HealthifyLoGo.png"  
+            width="120px"
+            alt="Element logo"  
+            class="flex-item"  
+          />  
+          </el-menu-item>
           <el-menu-item index="1">主页</el-menu-item>
           <el-menu-item index="2">论坛</el-menu-item>
           <el-menu-item index="3">计算工具</el-menu-item>
@@ -84,6 +86,9 @@ const userInfo = ref(null);
 </div>
 </template>
 <style lang="scss" scoped>
+
+
+
   .el-header {
         background-color: rgba(255, 255, 255, 0.5);
 
