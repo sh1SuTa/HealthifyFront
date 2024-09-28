@@ -46,7 +46,8 @@ const userInfo = ref(null);
           <el-menu-item index="1">主页</el-menu-item>
           <el-menu-item index="2">论坛</el-menu-item>
           <el-menu-item index="3">计算工具</el-menu-item>
-          <el-menu-item index="4">个人中心</el-menu-item>
+          <el-menu-item index="/dose">药物查询</el-menu-item>
+          <el-menu-item index="5">个人中心</el-menu-item>
     
         </el-menu>
   

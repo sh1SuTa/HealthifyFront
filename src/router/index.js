@@ -6,6 +6,7 @@ import LoginVue from '@/views/desktop/LoginView.vue'
 import LoginVueM from '@/views/mobile/LoginView.vue'
 
 import LayoutVue from '@/views/desktop/Layout.vue'
+import LayoutMVue from '@/views/mobile/Layout.vue'
 
 const routes = [
   
@@ -17,13 +18,13 @@ const routes = [
   
   ] },
   //移动端
-  // {
-  //     path: '/mobile',component: LayoutMVue,redirect: '/mobile/home' ,children:[
+  {
+      path: '/mobile',component: LayoutMVue,redirect: '/mobile/home' ,children:[
           
-  //       {path: '/mobile/home',component: HomeViewM},
+        {path: '/mobile/home',component: HomeViewM},
 
-  //     ]
-  // }
+      ]
+  }
   
   
 ]
