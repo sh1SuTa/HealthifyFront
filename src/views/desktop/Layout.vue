@@ -22,7 +22,26 @@ const router = useRouter();
 const userInfoStore = useUserInfoStore();
 const userInfo = ref(null);
 
-
+const handleCommand = (command)=>{
+    switch(command){
+        case 'mobileDose':
+            router.push('/dose')
+            break;
+        case 'info':
+            router.push('/user/info')
+            break;
+        case 'avatar':
+            router.push('/user/avatar')
+            break;
+        case 'resetPassword':
+            router.push('/user/resetPassword')
+            break;
+        case 'logout':
+            ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+                confirmButtonText: '确定',
+            })
+    }
+}
 </script>
 
 <template>

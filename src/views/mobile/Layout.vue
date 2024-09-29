@@ -19,6 +19,29 @@ const tokenStore = useTokenStore();
 const router = useRouter();
 const userInfoStore = useUserInfoStore();
 const userInfo = ref(null);
+
+
+const handleCommand = (command)=>{
+    switch(command){
+        case 'mobileDose':
+            router.push('/mobile/dose')
+            break;
+        case 'info':
+            router.push('/mobile/user/info')
+            break;
+        case 'avatar':
+            router.push('/mobile/user/avatar')
+            break;
+        case 'resetPassword':
+            router.push('/mobile/user/resetPassword')
+            break;
+        case 'logout':
+            ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+                confirmButtonText: '确定',
+            })
+    }
+}
+
 </script>
 
 
@@ -33,13 +56,13 @@ const userInfo = ref(null);
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false"
                 @select="handleSelect" router >
                 <!-- LOGO头 -->
-                <el-menu-item index="/home" class="logoHeader">
+                <el-menu-item index="/mobile/home" class="logoHeader">
                     <img src="@/assets/image/Healthify.png" width="150px" alt="Element logo" class="flex-item" />
                 </el-menu-item>
                 
                 <!-- 下拉菜单 -->
                 <div class="downMenu">
-                    <el-dropdown>
+                    <el-dropdown @command="handleCommand">
                         <span>
 
                             <el-icon size="50px" color="#409EFF">
@@ -51,8 +74,8 @@ const userInfo = ref(null);
                                 <el-dropdown-item>主页</el-dropdown-item>
                                 <el-dropdown-item>论坛</el-dropdown-item>
                                 <el-dropdown-item>计算工具</el-dropdown-item>
-                                <el-dropdown-item >药物查询</el-dropdown-item>
-                                <el-dropdown-item divided>个人中心</el-dropdown-item>
+                                <el-dropdown-item command="mobileDose">药物查询</el-dropdown-item>
+                                <el-dropdown-item >个人中心</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
@@ -94,6 +117,12 @@ const userInfo = ref(null);
 .el-menu-demo{
     background-color: rgba(255, 255, 255, 0) ;
     border: none; /* 移除边框，如果有的话 */ 
+}
+
+.logoHeader{
+    
+    left: -20%; /* 根据需要调整这个值，负数表示往左移动 */  
+    top: 0%;
 }
 
 .downMenu{

@@ -8,6 +8,11 @@ import LoginVueM from '@/views/mobile/LoginView.vue'
 import LayoutVue from '@/views/desktop/Layout.vue'
 import LayoutMVue from '@/views/mobile/Layout.vue'
 
+import UserInfo from '@/views/desktop/user/UserInfo.vue'
+import UserInfoM from '@/views/mobile/user/UserInfoM.vue'
+import UserAvatarM from '@/views/mobile/user/UserAvatarM.vue'
+import UserAvatar from '@/views/desktop/user/UserAvatar.vue'
+
 const routes = [
   
   { path: '/loginM',component: LoginVueM },
@@ -15,6 +20,10 @@ const routes = [
   //桌面端
   { path: '/',component: LayoutVue,redirect: '/home' ,children:[
       {path: '/home',component: HomeView},
+      {path: '/user/info',component: UserInfo},
+      {path: '/user/avatar',component: UserAvatar},
+
+  
   
   ] },
   //移动端
@@ -22,6 +31,8 @@ const routes = [
       path: '/mobile',component: LayoutMVue,redirect: '/mobile/home' ,children:[
           
         {path: '/mobile/home',component: HomeViewM},
+        {path: '/mobile/user/info',component: UserInfoM},
+        {path: '/mobile/user/avatar',component: UserAvatarM},
 
       ]
   }
