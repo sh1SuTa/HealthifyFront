@@ -40,7 +40,7 @@ const checkIfMobile = () => {
 const redirectIfMobile = () => {
   isMobile.value = checkIfMobile();
   if (isMobile.value) {
-    router.push('/user/avatar1');
+    router.push('/mobile/user/avatar');
   }
 };
 onMounted(() => {

@@ -25,7 +25,7 @@ const userInfo = ref(null);
 const handleCommand = (command)=>{
     switch(command){
         case 'mobileDose':
-            router.push('/dose')
+            router.push('/drugs')
             break;
         case 'info':
             router.push('/user/info')
@@ -65,7 +65,7 @@ const handleCommand = (command)=>{
           <el-menu-item index="1">主页</el-menu-item>
           <el-menu-item index="2">论坛</el-menu-item>
           <el-menu-item index="3">计算工具</el-menu-item>
-          <el-menu-item index="/dose">药物查询</el-menu-item>
+          <el-menu-item index="/drugs">药物查询</el-menu-item>
           <el-menu-item index="5">个人中心</el-menu-item>
     
         </el-menu>

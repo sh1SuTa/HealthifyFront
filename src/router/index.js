@@ -13,6 +13,8 @@ import UserInfoM from '@/views/mobile/user/UserInfoM.vue'
 import UserAvatarM from '@/views/mobile/user/UserAvatarM.vue'
 import UserAvatar from '@/views/desktop/user/UserAvatar.vue'
 
+import DrugsVue from '@/views/desktop/drugs/Drugs.vue'
+
 const routes = [
   
   { path: '/loginM',component: LoginVueM },
@@ -22,6 +24,8 @@ const routes = [
       {path: '/home',component: HomeView},
       {path: '/user/info',component: UserInfo},
       {path: '/user/avatar',component: UserAvatar},
+
+      {path: '/drugs',component: DrugsVue}
 
   
   
