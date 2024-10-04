@@ -97,11 +97,12 @@ const login = async ()=>{
     //调用接口，完成登录
     let result = await userLoginService(registerData.value);
     if (result.code === 1 ){
-        ElMessage.error(result.message ? result.message : '前端：账号或密码错误');
+        ElMessage.error(result.message ? result.message : '登录出现错误');
     }
-    ElMessage.success(result.msg ? result.msg : '登录成功');
+    ElMessage.success(result.message ? result.message : '登录成功，但没有返回message');
     //把得到的token存储在pinia中
     tokenStore.setToken(result.data)
+    
    
     //登录成功进行跳转
     router.push('/')

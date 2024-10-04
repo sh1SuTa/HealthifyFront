@@ -1,5 +1,15 @@
 import request from '@/utils/request.js'
+//存放token的地方
 import { useTokenStore } from '@/stores/token.js'
+
+export const drugsUpload = (formData)=>{
+    return request.post('/uploadUrl', formData, {
+        headers: {
+          'Authorization': tokenStore.value.token
+        }
+      });
+} 
+
 
 //文章分类列表查询
 export const articleCategoryListService = ()=>{
@@ -34,10 +44,13 @@ export const articleListService = (params)=>{
 export const drugsListService = (params)=>{
     return request.get('/drugs/list',{params:params})
 }
+export const drugsDetailService = (id)=>{
+    return request.get('/drugs/list/'+id)
+}
 
-//文章添加
-export const articleAddService = (articleData)=>{
-    return request.post('/article',articleData)
+//添加药物
+export const drugsAddService = (drugsModel)=>{
+    return request.post('/drugs/add',drugsModel)
 }
 
 //文章修改

@@ -12,8 +12,10 @@ import UserInfo from '@/views/desktop/user/UserInfo.vue'
 import UserInfoM from '@/views/mobile/user/UserInfoM.vue'
 import UserAvatarM from '@/views/mobile/user/UserAvatarM.vue'
 import UserAvatar from '@/views/desktop/user/UserAvatar.vue'
+import  UserResetPassword  from '@/views/desktop/user/UserResetPassword.vue'
 
 import DrugsVue from '@/views/desktop/drugs/Drugs.vue'
+import DrugDetails from '@/views/desktop/drugs/DrugDetails.vue'
 
 const routes = [
   
@@ -24,12 +26,14 @@ const routes = [
       {path: '/home',component: HomeView},
       {path: '/user/info',component: UserInfo},
       {path: '/user/avatar',component: UserAvatar},
+      {path: '/user/resetPassword',component: UserResetPassword},
 
-      {path: '/drugs',component: DrugsVue}
-
+      {path: '/drugs',component: DrugsVue},
+      { path: '/drugs/details',component: DrugDetails },
   
   
   ] },
+  
   //移动端
   {
       path: '/mobile',component: LayoutMVue,redirect: '/mobile/home' ,children:[
@@ -37,6 +41,7 @@ const routes = [
         {path: '/mobile/home',component: HomeViewM},
         {path: '/mobile/user/info',component: UserInfoM},
         {path: '/mobile/user/avatar',component: UserAvatarM},
+        
 
       ]
   }

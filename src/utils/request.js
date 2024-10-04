@@ -1,5 +1,3 @@
-//定制请求的实例
-
 //导入axios  npm install axios
 import axios from 'axios';
 //导入element-plusUi
@@ -10,8 +8,8 @@ import { useTokenStore } from '@/stores/token.js';
 //定义一个变量,记录公共的前缀  
 // const baseURL = 
 
-// 'http://localhost:8080';
-const baseURL = '/api';
+
+const baseURL = 'http://localhost:8080';
 // const baseURL = 'http://123.57.186.79:8080';
 const instance = axios.create({baseURL})
 
@@ -23,6 +21,7 @@ instance.interceptors.request.use(
         //请求前的回调
         //添加token
         const tokenStore = useTokenStore();
+        
         // 判断有没有token
         if(tokenStore.token){
             config.headers.Authorization = tokenStore.token

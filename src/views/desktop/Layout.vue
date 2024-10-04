@@ -20,9 +20,33 @@ import { ref,h,render } from 'vue';
 const tokenStore = useTokenStore();
 const router = useRouter();
 const userInfoStore = useUserInfoStore();
+
 const userInfo = ref(null);
 
+
+const getUserInfo = async () => {
+  try {
+    // 调用用户信息接口
+    let result = await userInfoService();
+    userInfo.value = result.data;
+
+    
+
+    // 更新数据存储
+    userInfoStore.setInfo({ ...result.data, nickname: result.data.nickname });
+  } catch (error) {
+    console.error('获取用户信息失败:', error);
+  }
+};
+getUserInfo();
+
 const handleCommand = (command)=>{
+    //先判断登录状态
+    if(!tokenStore.token){
+        ElMessage.warning('请先登录')
+        router.push('/login')
+        return;
+    }
     switch(command){
         case 'mobileDose':
             router.push('/drugs')
@@ -37,8 +61,31 @@ const handleCommand = (command)=>{
             router.push('/user/resetPassword')
             break;
         case 'logout':
-            ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-                confirmButtonText: '确定',
+            ElMessageBox.confirm(
+               '您确认要退出吗?',
+               '温馨提示',
+               {
+                 confirmButtonText: '确认',
+                 cancelButtonText: '取消',
+                 type: 'warning',
+               }
+            )
+            .then(async () => {
+                   //退出登录，清除pinia中存储的token和个人信息
+                    tokenStore.removeToken()
+                    userInfoStore.removeInfo()
+                    //跳转登录页面
+                    router.push('/login')
+                 ElMessage({
+                   type: 'success',
+                   message: '已退出登录',
+                 })
+            })
+            .catch(() => {
+                 ElMessage({
+                   type: 'info',
+                   message: '不退出登录',
+                 })
             })
     }
 }
@@ -62,7 +109,7 @@ const handleCommand = (command)=>{
             class="flex-item"  
           />  
           </el-menu-item>
-          <el-menu-item index="1">主页</el-menu-item>
+          <el-menu-item index="/home">主页</el-menu-item>
           <el-menu-item index="2">论坛</el-menu-item>
           <el-menu-item index="3">计算工具</el-menu-item>
           <el-menu-item index="/drugs">药物查询</el-menu-item>
