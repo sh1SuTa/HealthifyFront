@@ -1,16 +1,33 @@
 <script  setup>
 import { onMounted, ref,nextTick,computed } from 'vue'
 import {useTokenStore} from '@/stores/token.js'
+import {ElMessage,ElMessageBox} from 'element-plus'
 import {Plus,View} from '@element-plus/icons-vue'
 //导入富文本
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import {drugsListService,drugsAddService,drugsUpload} from '@/api/drugs.js'
 import { useRouter } from 'vue-router'
+
 const router = useRouter();
+const tokenStore = useTokenStore();
 
 const loading = ref(true)
+const showButton = ref(false)
 
+const handleCommand = ()=>{
+    //先判断登录状态
+    if(!tokenStore.token){
+        //未登录
+        
+        console.log('未登录')
+        return false;
+    }else{
+      console.log('已登录')
+      
+      return true;
+    }
+  }
 //控制添加分类弹窗
 const visibleDrawer = ref(false)
 //添加表单数据模型
@@ -35,7 +52,7 @@ loading.value = false
 
 
 
-const tokenStore = useTokenStore();
+
 
 //上传成功的回调函数
 const uploadSuccess = (result)=>{
@@ -115,8 +132,7 @@ const handleCurrentChange = (newPage) => {
 
 
 
-// 当前日期
-const currentDate = ref(new Date().toLocaleDateString());
+
 const uploadData = ref({
   type: 'drugs'
 });
@@ -151,7 +167,7 @@ const listDrugs = (id) =>{
 
         <el-button @click="resetForm">重置</el-button>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="handleCommand()">
         <el-button type="primary" @click="visibleDrawer=true">添加药物</el-button>
       </el-form-item>
     </el-form>
@@ -203,6 +219,7 @@ const listDrugs = (id) =>{
             </div>
           </div>
         </template>
+        
         <template #default>
           <!-- 绑定数据 -->
           <el-card v-for="item in paginatedLists" :key="item.id" :body-style="{ padding: '0px', marginBottom: '1px' }"
@@ -211,7 +228,7 @@ const listDrugs = (id) =>{
             <div style="padding: 14px">
               <span>{{ item.name }}</span>
               <div class="bottom card-header">
-                <div class="time">{{ currentDate }}</div>
+                <div class="time"  :style="{ color: 'red' }">{{ item.updateTime }}</div>
                 <el-button type="primary"  @click="listDrugs(item.id)">
                     <el-icon >
                       <View />
