@@ -16,18 +16,14 @@ const loading = ref(true)
 const showButton = ref(false)
 
 const handleCommand = ()=>{
-    //先判断登录状态
     if(!tokenStore.token){
-        //未登录
-        
-        console.log('未登录')
-        return false;
+      console.log('未登录')
+      return false;
     }else{
-      console.log('已登录')
-      
+      console.log('已登录') 
       return true;
     }
-  }
+}
 //控制添加分类弹窗
 const visibleDrawer = ref(false)
 //添加表单数据模型
@@ -46,12 +42,6 @@ const setLoading = () => {
 }
 
 loading.value = false
-
-
-
-
-
-
 
 
 //上传成功的回调函数
@@ -299,12 +289,7 @@ const listDrugs = (id) =>{
         }
     }
 }
-.editor {
-  width: 100%;
-  :deep(.ql-editor) {
-    min-height: 200px;
-  }
-}
+
 </style> 
   
  

@@ -17,6 +17,10 @@ import  UserResetPassword  from '@/views/desktop/user/UserResetPassword.vue'
 import DrugsVue from '@/views/desktop/drugs/Drugs.vue'
 import DrugDetails from '@/views/desktop/drugs/DrugDetails.vue'
 
+import ForumVue from '@/views/desktop/forum/Forum.vue'
+import ForumDetails from '@/views/desktop/forum/ForumDetails.vue'
+import ForumAdd from '@/views/desktop/forum/ForumAdd.vue'
+
 const routes = [
   
   { path: '/loginM',component: LoginVueM },
@@ -30,8 +34,12 @@ const routes = [
 
       {path: '/drugs',component: DrugsVue},
       { path: '/drugs/details',component: DrugDetails },
-  
-  
+
+      {path: '/forum',component: ForumVue},
+      { path: '/forum/:type',component: ForumVue },
+      { path: '/forum/details',component: ForumDetails },
+      { path: '/forum/add',component: ForumAdd },
+
   ] },
   
   //移动端

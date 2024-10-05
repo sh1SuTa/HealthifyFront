@@ -7,11 +7,12 @@ import avatar from '@/assets/image/favicon.ico'
 import { userInfoService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
 
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 import {ElMessage,ElMessageBox} from 'element-plus'
 import { useTokenStore } from '@/stores/token.js'
 
-import { ref,h,render } from 'vue';
+import { ref,h,watch } from 'vue';
+
 
 
 
@@ -19,6 +20,7 @@ import { ref,h,render } from 'vue';
 
 const tokenStore = useTokenStore();
 const router = useRouter();
+const route = useRoute();
 const userInfoStore = useUserInfoStore();
 
 const userInfo = ref(null);
@@ -89,28 +91,30 @@ const handleCommand = (command)=>{
             })
     }
 }
+// 设置 activeIndex 为当前路径
+const activeIndex = ref(route.path);
+
+// 监听路由变化，动态更新 activeIndex
+watch(route, (newRoute) => {
+  activeIndex.value = newRoute.path;
+});
+const scrollToBottom = () => {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  
+};
 </script>
 
 <template>
-<div class="common-layout">
-    <el-container>
+    <el-container class="mainStyle">
       <el-header>
-        <div class="member-label"><strong class="nickname" v-html="userInfoStore.info.nickname"></strong></div>
+        <!-- <div class="member-label"><strong class="nickname" v-html="userInfoStore.info.nickname"></strong></div> -->
 
-        <el-menu
-          :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
-          :ellipsis="false" @select="handleSelect" router>
-          <el-menu-item index="/home" >
-          
-          <img  
-            src="@/assets/image/HealthifyLoGo.png"  
-            width="120px"
-            alt="Element logo"  
-            class="flex-item"  
-          />  
+        <el-menu :default-active="activeIndex"  mode="horizontal"  :ellipsis="false" @select="handleSelect" router>
+          <el-menu-item @click="scrollToBottom" >
+            <img src="@/assets/image/HealthifyLoGo.png"  width="120px" alt="Element logo"  />  
           </el-menu-item>
           <el-menu-item index="/home">主页</el-menu-item>
-          <el-menu-item index="2">论坛</el-menu-item>
+          <el-menu-item index="/forum">论坛</el-menu-item>
           <el-menu-item index="3">计算工具</el-menu-item>
           <el-menu-item index="/drugs">药物查询</el-menu-item>
           <el-menu-item index="5">个人中心</el-menu-item>
@@ -137,27 +141,24 @@ const handleCommand = (command)=>{
                 </el-dropdown>
 
       </el-header>
-      <el-main>
+      <el-main >
         <router-view></router-view>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
-
-    
-
-
-
-
-    
-    
-</div>
 </template>
 <style lang="scss" scoped>
+.mainStyle {
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #f8f8f8,#f1f5d4,  #dff7b9,#fad0c4,#f8f8f8); /* 定义渐变填充 */
+  border-radius: 8px; /* 可选：让边角圆润 */
+  
+}
 
 
-
-  .el-header {
-        background-color: rgba(255, 255, 255, 0.5);
+.el-header {
+  
+         background-color: rgba(255, 255, 255, 1);
 
         display: flex;
         align-items: center;
@@ -169,7 +170,7 @@ const handleCommand = (command)=>{
 
             .el-icon {
                 color: #999;
-                margin-left: 10px;
+                
             }
 
             &:active,
@@ -177,5 +178,5 @@ const handleCommand = (command)=>{
                 outline: none;
             }
         }
-    }
+}
 </style>
