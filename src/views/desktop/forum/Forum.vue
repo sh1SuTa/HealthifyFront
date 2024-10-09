@@ -1,18 +1,30 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-
-
+import {postListService} from '@/api/forum.js'
+import dayjs from 'dayjs';
+import {useTokenStore} from '@/stores/token.js'
 
 const searchQuery = ref('');
+const category = ref('health');
 const posts = ref([
-  { id: 1, title: '帖子标题1', summary: '强大的 CRUD 操作：内置通用 Mapper、通用 Service，仅仅通过少量配置即可实现单表大部分 CRUD 操作，更有强大的条件构造器，满足各类使用需求。损耗小：启动即会自动注入基本 CURD，性能基本无损耗，直接面向对象操作强大的 CRUD 操作：内置通用 Mapper、通用 Service，仅仅通过少量配置即可实现单表大部分 CRUD 操作，更有强大的条件构造器，满足各类使用需求' },
-  { id: 2, title: '帖子标题2', summary: '这是第二个帖子摘要...' },
-  { id: 2, title: '帖子标题3', summary: '这是第san个帖子摘要...' },
-  { id: 2, title: '减肥攻略', summary: '减肥是一个涉及饮食、运动和生活方式的综合过程...' },
-  // 模拟帖子数据
+  
 ]);
-const totalPosts = 100;
+const totalPosts = ref(0);
+const tokenStore = useTokenStore();
+
+//获取帖子列表数据
+const postList = async ()=>{
+    let params = {
+      searchQuery: searchQuery.value ? searchQuery.value : null,
+      category: category.value ? category.value : 'health'
+    }
+    let result = await postListService(params);
+    //重新加载数据
+    posts.value = result.data;
+    totalPosts = posts.value.length;
+}
+postList();
 
 const handlePageChange = (page) => {
   console.log('当前页:', page);
@@ -29,19 +41,73 @@ const truncateRichText = (content, maxLength) => {
   }
   return content; // 如果文本长度未超过限制，返回原内容
 };
+
+const handleClick = (id) => {
+  
+  const url = `/forum/details?id=${encodeURIComponent(id)}`;
+  window.open(url, '_blank'); // 在新标签页中打开
+};
+const categoryD = (index) => {
+  switch (index) {
+    case '':
+      
+      category.value = 'health'
+      break;
+    case 'beauty':
+      
+      category.value = 'beauty'
+      break;
+    case 'qa':
+      
+      category.value = 'qa'
+      break;
+    case 'other':
+      
+      category.value = 'other'
+      break;
+    default:
+      console.log('Unknown command');
+  }
+  postList(); // 在所有情况下调用 postList()
+};
+// 格式化时间函数
+const formatDate = (updateTime) => {
+  if (!updateTime) return '';
+  return dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss');
+};
+const isLogin = ()=>{
+    if(!tokenStore.token){
+      console.log('未登录')
+      return false;
+    }else{
+      console.log('已登录') 
+      return true;
+    }
+}
+const addPostClick = () =>{
+   // 正确拼接 URL
+   const url = `/forum/add`;
+  window.open(url, '_blank');
+}
 </script>
 <template>
     
     <el-container>
     <!-- 导航栏 -->
     <el-header>
-      <el-row justify="space-between" >
+      <el-row justify="start" >
         
-        <el-col :span="18">
+        <el-col :span="11">
           <el-input v-model="searchQuery" placeholder="搜索帖子" />
         </el-col>
-        <el-col :span="6">
-            <el-button type="primary" @click="dialogVisible = true" style="margin-left: 10px;">搜索</el-button>
+        <el-col :span="1">
+            <el-button type="primary" @click="postList()" style="margin-left: 10px;">搜索</el-button>
+        </el-col>
+        <el-col :span="1">
+            <el-button type="primary" @click="searchQuery=null" style="margin-left: 10px;">清空</el-button>
+        </el-col>
+        <el-col v-if="isLogin()" :span="1">
+          <el-button type="primary" @click="addPostClick()" style="margin-left: 10px;">发帖</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -51,23 +117,23 @@ const truncateRichText = (content, maxLength) => {
     <el-main>
       <el-row>
         <el-col :span="4" >
-          <el-menu router  class="custom-menu">
+          <el-menu   class="custom-menu" @select="categoryD">
             <el-menu-item index="">健康帖</el-menu-item>
-            <el-menu-item index="1">美容帖</el-menu-item>
-            <el-menu-item index="2">问答帖</el-menu-item>
-            <el-menu-item index="3">其他帖</el-menu-item>
+            <el-menu-item index="beauty">美容帖</el-menu-item>
+            <el-menu-item index="qa">问答帖</el-menu-item>
+            <el-menu-item index="other">其他帖</el-menu-item>
           </el-menu>
         </el-col>
 
         <el-col :span="19"  style="margin-left: 10px;">
-          <el-card v-for="post in posts" :key="post.id" class="post-card">
-            <router-link :to="'/post/' + post.id" class="no-underline">
-                <div class="header">
+          <el-card v-for="post in posts" :key="post.id" class="post-card" @click="handleClick(post.id)">
+            <!-- <router-link to="/post"  class="no-underline"> -->
+                <div class="header no-underline">
                     <h3>{{ post.title }}</h3>
-                    <p class="timestamp" >{{post.updateTime}}</p>
+                    <p class="timestamp no-underline" >{{formatDate(post.updateTime)}}</p>
                 </div>
               <p class="summary" v-html="truncateRichText(post.summary, 40)"></p>
-            </router-link>
+            <!-- </router-link> -->
           </el-card>
           <!-- 分页 -->
           <el-pagination background layout="prev, pager, next" :total="totalPosts" @current-change="handlePageChange"/>
@@ -87,9 +153,9 @@ const truncateRichText = (content, maxLength) => {
   margin-left: auto; /* 自动左边距，使时间靠右对齐 */
   color: lightcoral; /* 设置浅红色 */
 }
-.no-underline {
+ .no-underline {
   text-decoration: none; /* 去掉下划线 */
-}
+ }
 h3 {
   background: linear-gradient(45deg, #ff9a9e, #fad0c4);
   -webkit-background-clip: text;
@@ -111,6 +177,7 @@ h3 {
   font-weight: bold;
 }
 .post-card {
+  
   margin-bottom: 20px;
 //   border: 10px solid; /* 定义边框厚度 */
 //   border-image: linear-gradient(180deg, #ff9a9e, #fad0c4,#fa9066) 1; /* 定义渐变作为边框 */

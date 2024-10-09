@@ -3,6 +3,8 @@ import { ref } from 'vue';
 //导入富文本
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { useRouter } from 'vue-router';
+
 
 const newPost = ref({
   title: '',
@@ -10,22 +12,23 @@ const newPost = ref({
   content: '',
 });
 const options = [
-  {
-    value: 'question',
-    label: '提问帖',
-  },
-  {
-    value: 'knowledge',
-    label: '知识帖',
-  },
-  {
-    value: 'other',
-    label: '其他帖',
-  }
+  {  value: 'health', label: '健康帖'},
+  {  value: 'beauty', label: '美容帖'},
+  {  value: 'qa',     label: '问答帖'},
+  {  value: 'other',  label: '其他帖'}
 ]
 
 const submitPost = () => {
-  console.log('新帖已发布:', newPost.value);
+  //进行数据校验
+  if (!newPost.value.title || !newPost.value.content) {
+    alert('请填写完整的帖子标题和内容');
+    return;
+  }else if(!newPost.value.type){
+    alert('请选择帖子类型');
+    return;
+  }else{
+    
+  }
 };
 </script>
 
@@ -38,15 +41,15 @@ const submitPost = () => {
         <el-form-item label="帖子类型">
             <el-select    v-model="newPost.type"  placeholder="请选择"    style="width: 240px">
                 <el-option  v-for="item in options" :key="item.value"  :label="item.label"  :value="item.value"/>
-            </el-select>
+            </el-select> 
         </el-form-item>
         <el-form-item label="帖子内容" class="custom-form-item">
             <div>
-                <QuillEditor v-model="newPost.content" theme="snow" class="quill-editor" />
+                <quill-editor v-model:content="newPost.content" theme="snow" class="quill-editor" />
             </div>
         </el-form-item>
         <el-form-item label="发布帖子">
-            <el-button type="primary" @click="submitPost">发布</el-button>
+            <el-button type="primary" @click="submitPost()">发布</el-button>
         </el-form-item>
     </el-form>
 

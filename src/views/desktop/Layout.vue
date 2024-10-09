@@ -8,7 +8,7 @@ import { userInfoService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
 
 import { useRouter,useRoute } from 'vue-router'
-import {ElMessage,ElMessageBox} from 'element-plus'
+import {ElMessage,ElMessageBox,} from 'element-plus'
 import { useTokenStore } from '@/stores/token.js'
 
 import { ref,h,watch } from 'vue';
@@ -106,46 +106,48 @@ const scrollToBottom = () => {
 
 <template>
     <el-container class="mainStyle">
+      <!-- 固钉 -->
+      <el-affix >
       <el-header>
         <!-- <div class="member-label"><strong class="nickname" v-html="userInfoStore.info.nickname"></strong></div> -->
-
-        <el-menu :default-active="activeIndex"  mode="horizontal"  :ellipsis="false" @select="handleSelect" router>
-          <el-menu-item @click="scrollToBottom" >
-            <img src="@/assets/image/HealthifyLoGo.png"  width="120px" alt="Element logo"  />  
+        
+        <el-menu :default-active="activeIndex"  mode="horizontal"  :ellipsis="false" @select="handleSelect" router class="custom-menu">
+          <el-menu-item @click="scrollToBottom" class="custom-menu">
+            <img src="@/assets/image/Healthify.png"  width="120px" alt="Element logo"  class="custom-menu"/>  
           </el-menu-item>
-          <el-menu-item index="/home">主页</el-menu-item>
-          <el-menu-item index="/forum">论坛</el-menu-item>
-          <el-menu-item index="3">计算工具</el-menu-item>
-          <el-menu-item index="/drugs">药物查询</el-menu-item>
-          <el-menu-item index="5">个人中心</el-menu-item>
-    
+          <el-menu-item index="/home" class="custom-menu">主页</el-menu-item>
+          <el-menu-item index="/forum" class="custom-menu">论坛</el-menu-item>
+          <el-menu-item index="3" class="custom-menu">计算工具</el-menu-item>
+          <el-menu-item index="/drugs" class="custom-menu">药物查询</el-menu-item>
+          <el-menu-item index="5" class="custom-menu">个人中心</el-menu-item>
         </el-menu>
   
-  
-                <!-- 下拉菜单 command被点击后触发，可以在事件函数上可以声明一个参数接收条目对应的指令-->
-                <el-dropdown placement="bottom-end" @command="handleCommand">
-                    <span class="el-dropdown__box">
-                        <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar" shape='square'/>
-                        <el-icon>
-                            <CaretBottom />
-                        </el-icon>
-                    </span>
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
-                            <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
-                            <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>
-                            <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
-
+            <!-- 下拉菜单 command被点击后触发，可以在事件函数上可以声明一个参数接收条目对应的指令-->
+        <el-dropdown placement="bottom-end" @command="handleCommand">
+            <span class="el-dropdown__box">
+                <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar" shape='square'/>
+                <el-icon>
+                    <CaretBottom />
+                </el-icon>
+            </span>
+            <template #dropdown>
+                <el-dropdown-menu>
+                    <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
+                    <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+                    <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>
+                    <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+            </template>
+        </el-dropdown>
+      
       </el-header>
+    </el-affix>
       <el-main >
-        <router-view></router-view>
+        <router-view ></router-view>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
+    <el-backtop :right="10" :bottom="100" />
 </template>
 <style lang="scss" scoped>
 .mainStyle {
@@ -155,28 +157,30 @@ const scrollToBottom = () => {
   
 }
 
-
+.custom-menu{
+  
+  background-color: rgba(255, 255, 255, 0);
+}
 .el-header {
   
-         background-color: rgba(255, 255, 255, 1);
+  
+  background-color: rgba(255, 255, 255, 0.5);
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+    .el-dropdown__box {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-
-        .el-dropdown__box {
-            display: flex;
-            align-items: center;
-
-            .el-icon {
-                color: #999;
-                
-            }
-
-            &:active,
-            &:focus {
-                outline: none;
-            }
+        .el-icon {
+            color: #999;
+            
         }
+        &:active,
+        &:focus {
+            outline: none;
+        }
+    }
 }
 </style>

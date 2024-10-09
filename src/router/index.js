@@ -36,7 +36,7 @@ const routes = [
       { path: '/drugs/details',component: DrugDetails },
 
       {path: '/forum',component: ForumVue},
-      { path: '/forum/:type',component: ForumVue },
+      
       { path: '/forum/details',component: ForumDetails },
       { path: '/forum/add',component: ForumAdd },
 

@@ -13,8 +13,10 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
     "element-plus": "^2.8.3",
     "pinia": "^2.2.2",
+    "pinia-plugin-persistedstate": "^4.1.1",
     "vue": "^3.5.8",
     "vue-router": "^4.4.5"
   },
